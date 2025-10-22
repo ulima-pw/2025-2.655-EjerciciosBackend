@@ -1,0 +1,1 @@
+GET http://localhost:5010/profile?token=abc123s
