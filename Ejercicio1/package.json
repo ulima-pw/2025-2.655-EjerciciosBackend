@@ -2,9 +2,9 @@
   "name": "ejercicio1",
   "version": "1.0.0",
   "main": "src/index.ts",
-  "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev" : "npx nodemon src/index.ts"
   },
   "keywords": [],
   "author": "",
@@ -17,6 +17,7 @@
   "devDependencies": {
     "@types/dotenv": "^6.1.1",
     "@types/express": "^5.0.3",
+    "@types/node": "^24.9.1",
     "@types/nodemon": "^1.19.6",
     "nodemon": "^3.1.10",
     "ts-node": "^10.9.2",
