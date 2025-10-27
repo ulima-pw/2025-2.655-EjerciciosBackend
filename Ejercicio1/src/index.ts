@@ -1,6 +1,7 @@
 import express, {NextFunction, Request, Response} from "Express"
 import dotenv from "dotenv"
 import bodyParser from "body-parser"
+import cors from "cors"
 
 dotenv.config()
 
@@ -15,6 +16,7 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({
     extended : true
 }))
+app.use(cors()) // Configuramos CORS
 
 const authentication = (req : Request, resp : Response, next : NextFunction) => {
     const token = req.headers["authorization"]
