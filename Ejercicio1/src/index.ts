@@ -1,4 +1,4 @@
-import express, {Request, Response} from "Express"
+import express, {NextFunction, Request, Response} from "Express"
 import dotenv from "dotenv"
 import bodyParser from "body-parser"
 
@@ -15,6 +15,26 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({
     extended : true
 }))
+
+const authentication = (req : Request, resp : Response, next : NextFunction) => {
+    const token = req.headers["authorization"]
+
+    if (token == undefined){
+        resp.status(400).json({
+            error : "Debe enviar token"
+        })
+        return
+    }
+    if (token == "abc123") {
+        next() // deja pasar la peticion
+        return
+    }else {
+        resp.status(401).json({
+            error : "Token incorrecto"
+        })
+        return
+    }
+}
 
 app.post("/login", (req : Request, resp : Response) => {
     const data = req.body
@@ -34,18 +54,15 @@ app.post("/login", (req : Request, resp : Response) => {
     return
 })
 
-app.get("/profile", (req : Request, resp : Response) => {
-    // /profile?token=abc123
-    const token = req.query.token
-    if (token != undefined && token == "abc123") {
-        resp.status(200).send("OK")
-        return
-    }else {
-        resp.status(401).json({
-            error : "Usuario no autorizado"
-        })
-        return
-    }
+app.get("/profile", authentication ,(req : Request, resp : Response) => {
+    // /profile
+    resp.status(200).send("OK")
+})
+
+app.get("/users", authentication, (req : Request, resp : Response) => {
+    resp.json([
+        {username : "billy", password : "123"}
+    ])
 })
 
 app.listen(PORT, () => {
